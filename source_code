@@ -1,0 +1,65 @@
+# Author: David Morris
+
+# 9-17-19
+
+# This program will take the information inside of mycities (city, state, zipcodes), 
+# and output the information into a nice table as per the length of the longest city from mycities.
+
+# Any use without author's expressed permission is copyright infringement. 
+
+
+def main():
+    """ mycities contains info (city, state, zipcodes) to modify """
+    mycities = ['Cape Girardeau, MO 63780', 'Columbia, MO  65201',
+                'Kansas City, MO 64108', 'Rolla,MO   65402',
+                'Springfield, MO65897', 'St Joseph, MO64504',
+                'St Louis,MO63111', 'Ames,   IA 50010 ', 'Enid, OK 73773',
+                'West Palm Beach, FL 33412',
+                'International Falls, MN 56649',
+                'Frostbite Falls,MN               56650     ',
+                'Charleston,    SC      29403', 'Ladson,     SC         29456'
+                ]
+
+    def is_longest(mycities):
+        """this will find the longest city name, returns the value to be used later """
+        longest = 0
+        for i in mycities:
+            myIndex = i.find(',')
+            if myIndex > longest:
+                longest = myIndex
+        return longest
+
+    def is_spaces(x, myIndex, longest):
+        """ splits and returns city name, uses longest to create whitespace """
+        whitespace = " "
+        begin = 0
+        spaces = longest - myIndex
+        needed_spaces = whitespace * spaces
+        city = x[begin: myIndex]
+        new_city = city + needed_spaces
+        return new_city
+
+    def is_state_zipcodes(x, myIndex):
+        """ splits and returns state name, then state & zipcodes combined """
+        state = x[(myIndex + 1):]
+        new_state = state.strip()
+        state_results = new_state[0:2]
+        zipcodes = new_state[2:]
+        state_results = state_results + ' ' + zipcodes.strip()
+        return state_results
+	
+	#calling function and setting up a variable to be used later in for loop 
+    longest = is_longest(mycities)
+
+    # Iterating over mycities info by using find again and calling functions
+    for c in mycities:
+        myIndex = c.find(',')
+
+        # Calling my functions
+        final_city= is_spaces(c, myIndex, longest)
+        final_state = is_state_zipcodes(c, myIndex)
+
+        print(final_city+ " " + final_state)
+
+
+main()
